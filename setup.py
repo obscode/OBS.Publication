@@ -32,7 +32,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
     keywords='Python Plone CMS',
-    author='obscode',
+    author='Chris Burns',
     author_email='cburns@carnegiescience.edu',
     url='https://github.com/collective/OBS.Publication',
     project_urls={
