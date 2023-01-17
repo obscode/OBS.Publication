@@ -8,7 +8,7 @@ OBS.Publication
 ===============
 
 A content type that queries the 
-`NASA Astrophysics Data System (ADS)<https://ui.adsabs.harvard.edu/>`_
+`NASA Astrophysics Data System (ADS) <https://ui.adsabs.harvard.edu/>`_
 and retrieves the meta-data for a single academic publication. The user adds a publication 
 content type to a folder. The only required field is the ADS biographical code. The rest of
 the meta-data is downloaded automatically using the 
