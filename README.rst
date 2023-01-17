@@ -31,33 +31,17 @@
 OBS.Publication
 ===============
 
-Publication content type
+A content type that queries the NASA Abstract Data Service (ADS) and retrieves the
+meta-data for a single academic publication. The user adds a publication content
+type to a folder. The only required field is the ADS biographical code. The rest of
+the meta-data is downloaded automatically (using [ads](https://github.com/andycasey/ads))
+module and fills in the other fields.
 
 Features
 --------
 
-- Can be bullet points
-
-
-Examples
---------
-
-This add-on can be seen in action at the following sites:
-- Is there a page on the internet where everybody can see the features?
-
-
-Documentation
--------------
-
-Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
-
-
-Translations
-------------
-
-This product has been translated into
-
-- Klingon (thanks, K'Plai)
+- Not many at the moment, this is a work in progress. So far, the default folder
+  listing will look "okay". A proper view is still needed.
 
 
 Installation
@@ -79,15 +63,7 @@ and then running ``bin/buildout``
 Authors
 -------
 
-Provided by awesome people ;)
-
-
-Contributors
-------------
-
-Put your name here, you deserve it!
-
-- ?
+Chris Burns (Carnegie Observatories)
 
 
 Contribute
@@ -96,13 +72,6 @@ Contribute
 - Issue Tracker: https://github.com/collective/OBS.Publication/issues
 - Source Code: https://github.com/collective/OBS.Publication
 - Documentation: https://docs.plone.org/foo/bar
-
-
-Support
--------
-
-If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
 
 
 License
