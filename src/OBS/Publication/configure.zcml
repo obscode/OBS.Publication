@@ -39,6 +39,11 @@
       factory=".setuphandlers.HiddenProfiles"
       name="OBS.Publication-hiddenprofiles"
       />
+  <subscriber
+    for=".content.publication.IPublication
+         zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    handler=".content.publication.postQuery"
+  />
 
   <!-- -*- extra stuff goes here -*- -->
 

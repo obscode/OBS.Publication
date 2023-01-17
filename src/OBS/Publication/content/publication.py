@@ -1,63 +1,114 @@
 # -*- coding: utf-8 -*-
-# from plone.app.textfield import RichText
+from plone.app.textfield import RichText,RichTextValue
 # from plone.autoform import directives
 from plone.dexterity.content import Container
 # from plone.namedfile import field as namedfile
 from plone.supermodel import model
-# from plone.supermodel.directives import fieldset
-# from z3c.form.browser.radio import RadioFieldWidget
-# from zope import schema
+from plone.supermodel.directives import fieldset
+
+from zope import schema
 from zope.interface import implementer
+import ads
+ads.config.token = '4jV0RiqSN0MBxsHFsVvR3SUGrmyzu906bssxmWBl'
 
-
-# from OBS.Publication import _
+from OBS.Publication import _
 
 
 class IPublication(model.Schema):
     """ Marker interface and Dexterity Python Schema for Publication
     """
-    # If you want, you can load a xml model created TTW here
-    # and customize it in Python:
+    
+    fieldset(
+        'metadata',
+        label = "Meta Data",
+        description = "This data is automatically downloaded from ADS",
+        fields=('pubtitle', 'authors', 'first_author','journal',
+                'year', 'volume','page', 'abstract')
+    )
+    # ADS URL for the publication
+    url = schema.TextLine(
+        title=_(u'ADS Bibcode'),
+        required=True
+    )
 
-    # model.load('publication.xml')
+    pubtitle = schema.TextLine(
+        title='Title',
+        required=False,
+        #readonly=True
+    )
 
-    # directives.widget(level=RadioFieldWidget)
-    # level = schema.Choice(
-    #     title=_(u'Sponsoring Level'),
-    #     vocabulary=LevelVocabulary,
-    #     required=True
-    # )
+    authors = schema.TextLine(
+        title='Authors',
+        required=False,
+        #readonly=True
+    )
 
-    # text = RichText(
-    #     title=_(u'Text'),
-    #     required=False
-    # )
+    first_author = schema.TextLine(
+        title='First Author',
+        required=False,
+        #readonly=True
+    )
 
-    # url = schema.URI(
-    #     title=_(u'Link'),
-    #     required=False
-    # )
+    journal = schema.TextLine(
+        title='Journal',
+        required=False,
+        #readonly=True
+    )
 
-    # fieldset('Images', fields=['logo', 'advertisement'])
-    # logo = namedfile.NamedBlobImage(
-    #     title=_(u'Logo'),
-    #     required=False,
-    # )
+    year = schema.TextLine(
+        title='Year',
+        required=False,
+        #readonly=True
+    )
 
-    # advertisement = namedfile.NamedBlobImage(
-    #     title=_(u'Advertisement (Gold-sponsors and above)'),
-    #     required=False,
-    # )
+    volume = schema.TextLine(
+        title='Volume',
+        required=False,
+        #readonly=True
+    )
 
-    # directives.read_permission(notes='cmf.ManagePortal')
-    # directives.write_permission(notes='cmf.ManagePortal')
-    # notes = RichText(
-    #     title=_(u'Secret Notes (only for site-admins)'),
-    #     required=False
-    # )
+    page = schema.TextLine(
+        title='Page',
+        required=False
+    )
 
+    abstract = RichText(
+        title='Abstract',
+        required=False
+    )
+
+
+
+def postQuery(obj, event):
+    '''After creating the object, do the query to get the data'''
+
+    obj._query_data()
+    return
 
 @implementer(IPublication)
 class Publication(Container):
     """ Content-type class for IPublication
     """
+    
+    def _query_data(self):
+        '''Query the ADS database to retrieve the data'''
+        paper = list(ads.SearchQuery(
+            bibcode=self.url, 
+            fl=['title','author','abstract','pub','year','volume','page','first_author']))[0]
+        self.title = paper.title[0]
+        self.first_author = paper.first_author
+        self.authors = ','.join(paper.author)
+        self.journal = paper.pub
+        self.volume = paper.volume
+        self.page = paper.page[0]
+        self.year = paper.year
+
+        self.abstract = RichTextValue(paper.abstract, 'text/html', 
+                                           'text/html')
+    def Description(self):
+        '''override the summar to be a journal-style citation'''
+        summ = "{} et al. ({}), {}, {}, {}".format(self.first_author,
+           self.year, self.journal, self.volume, self.page)
+        return summ
+
+
