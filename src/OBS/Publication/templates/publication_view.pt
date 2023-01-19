@@ -27,6 +27,19 @@
        <div tal:content="structure context/abstract/raw" />
     </div>
     </p>
+    <p>
+    <div tal:condition="context/view/listDataFiles" class="field">
+        <label><b>Data for this Paper</b></label>
+        <UL>
+           <LI tal:repeat="item context/view/listDataFiles">
+                <a tal:attributes="href python: item.absolute_url()"
+                    tal:content="item/title"/>
+                <div tal:condition="item/description">
+                    <span tal:replace="item/description"/>
+                </div>
+            </LI>
+        </UL>
+    </div>
 </metal:main>
 
 </body>

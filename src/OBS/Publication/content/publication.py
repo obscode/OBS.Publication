@@ -124,6 +124,10 @@ class PublicationView(BrowserView):
         link = "https://ui.adsabs.harvard.edu/abs/{}/abstract".format(context.url)
         return link
 
+    def listDataFiles(self):
+        '''Get listing of contained data files.'''
+        return [t[1] for t in self.context.contentItems()]
+
 class INameFromADS(INameFromTitle):
     def title():
         '''Return a processed title'''
@@ -137,3 +141,5 @@ class NameFromADS(object):
     @property
     def title(self):
         return self.context.url
+
+    
