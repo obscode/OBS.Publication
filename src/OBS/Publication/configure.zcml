@@ -55,5 +55,9 @@
     />
 
   <!-- -*- extra stuff goes here -*- -->
+  <adapter for=".content.publication.IPublication"
+     provides=".content.publication.INameFromADS"
+     factory=".content.publication.NameFromADS"
+     />
 
 </configure>

@@ -8,6 +8,7 @@ from plone.supermodel.directives import fieldset
 from Acquisition import aq_inner
 from plone import api
 from Products.Five import BrowserView
+from plone.app.content.interfaces import INameFromTitle
 
 from zope import schema
 from zope.interface import implementer
@@ -122,3 +123,17 @@ class PublicationView(BrowserView):
         context = aq_inner(self.context)
         link = "https://ui.adsabs.harvard.edu/abs/{}/abstract".format(context.url)
         return link
+
+class INameFromADS(INameFromTitle):
+    def title():
+        '''Return a processed title'''
+
+@implementer(INameFromTitle)
+class NameFromADS(object):
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def title(self):
+        return self.context.url
