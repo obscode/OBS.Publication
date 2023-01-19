@@ -5,6 +5,9 @@ from plone.dexterity.content import Container
 # from plone.namedfile import field as namedfile
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
+from Acquisition import aq_inner
+from plone import api
+from Products.Five import BrowserView
 
 from zope import schema
 from zope.interface import implementer
@@ -97,7 +100,7 @@ class Publication(Container):
             fl=['title','author','abstract','pub','year','volume','page','first_author']))[0]
         self.title = paper.title[0]
         self.first_author = paper.first_author
-        self.authors = ','.join(paper.author)
+        self.authors = '; '.join(paper.author[:-1]) + "; and " + paper.author[-1]
         self.journal = paper.pub
         self.volume = paper.volume
         self.page = paper.page[0]
@@ -111,4 +114,11 @@ class Publication(Container):
            self.year, self.journal, self.volume, self.page)
         return summ
 
+class PublicationView(BrowserView):
 
+    def ADSlink(self):
+        """Return the ADS link."""
+
+        context = aq_inner(self.context)
+        link = "https://ui.adsabs.harvard.edu/abs/{}/abstract".format(context.url)
+        return link

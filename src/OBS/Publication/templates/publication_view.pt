@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:main fill-slot="main">
+
+    <h1 class="documentFirstHeading" tal:content="context/Title" />
+
+    <p class="documentDescription" tal:content="context/Description" />
+
+    <p><a tal:attributes="href context/view/ADSlink">View on ADS</a></p>
+
+    <div class="field">
+       <label><b>Authors</b></label>
+       <br />
+       <div tal:content="context/authors" />
+    </div>
+    <p>
+    <div class="field">
+       <label><b>Abstract</b></label>
+       <br />
+       <div tal:content="structure context/abstract/raw" />
+    </div>
+    </p>
+</metal:main>
+
+</body>
+</html>
