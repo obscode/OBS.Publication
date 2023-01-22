@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records field="ADStoken"
+           interface="OBS.Publication.interfaces.IOBSPublicationSettings" prefix="publication"
+           remove="True"
+  />
+
+</registry>

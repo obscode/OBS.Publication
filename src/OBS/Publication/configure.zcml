@@ -54,6 +54,14 @@
     permission="zope2.View"
     />
 
+   <browser:page
+      name="publication-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".settings.OBSPublicationSettingsEditFormSettingsControlPanel"
+      permission="cmf.ManagePortal"
+      layer="OBS.Publication.interfaces.IOBSPublicationLayer"
+      />
+
   <!-- -*- extra stuff goes here -*- -->
   <adapter for=".content.publication.IPublication"
      provides=".content.publication.INameFromADS"

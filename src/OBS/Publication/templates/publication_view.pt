@@ -24,7 +24,9 @@
     <div class="field">
        <label><b>Abstract</b></label>
        <br />
-       <div tal:content="structure context/abstract/raw" />
+       <div tal:condition="context/abstract">
+            <span tal:replace="structure context/abstract/raw" />
+       </div>
     </div>
     </p>
     <p>

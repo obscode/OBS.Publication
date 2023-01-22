@@ -2,6 +2,6 @@
 <layers>
   <layer
       name="OBS.Publication"
-      interface="OBS.Publication.interfaces.IObsPublicationLayer"
+      interface="OBS.Publication.interfaces.IOBSPublicationLayer"
       />
 </layers>

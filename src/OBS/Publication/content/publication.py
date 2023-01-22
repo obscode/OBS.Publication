@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 from plone.app.textfield import RichText,RichTextValue
-# from plone.autoform import directives
 from plone.dexterity.content import Container
-# from plone.namedfile import field as namedfile
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
+from plone.registry.interfaces import IRegistry
 from Acquisition import aq_inner
 from plone import api
 from Products.Five import BrowserView
+from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.content.interfaces import INameFromTitle
 
 from zope import schema
 from zope.interface import implementer
+from zope.component import getUtility
 import ads
-ads.config.token = '4jV0RiqSN0MBxsHFsVvR3SUGrmyzu906bssxmWBl'
+
+# Set the ADS token to None to begin
+
+ads.config.token = None
 
 from OBS.Publication import _
 
@@ -96,9 +100,23 @@ class Publication(Container):
     
     def _query_data(self):
         '''Query the ADS database to retrieve the data'''
-        paper = list(ads.SearchQuery(
-            bibcode=self.url, 
-            fl=['title','author','abstract','pub','year','volume','page','first_author']))[0]
+        if ads.config.token is None:
+            registry = getUtility(IRegistry)
+            ADStoken = registry['OBS.Publication.interfaces.IOBSPublicationSettings.ADStoken']
+            ads.config.token = ADStoken
+        
+        try:
+            paper = list(ads.SearchQuery(
+                bibcode=self.url, 
+                fl=['title','author','abstract','pub','year','volume','page','first_author']))[0]
+        except ads.exceptions.APIResponseError:
+            # Failed to query database
+            portal = api.portal.get()
+            messages = IStatusMessage(portal.REQUEST)
+            messages.add(u"Warning: ADS database query failed", type=u"warning")
+            return
+
+
         self.title = paper.title[0]
         self.first_author = paper.first_author
         self.authors = '; '.join(paper.author[:-1]) + "; and " + paper.author[-1]
@@ -109,6 +127,8 @@ class Publication(Container):
 
         self.abstract = RichTextValue(paper.abstract, 'text/html', 
                                            'text/html')
+        return
+
     def Description(self):
         '''override the summar to be a journal-style citation'''
         summ = "{} et al. ({}), {}, {}, {}".format(self.first_author,

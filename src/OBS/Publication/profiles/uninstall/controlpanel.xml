@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        name="portal_controlpanel"
+        i18n:domain="OBS.Publication"
+>
+
+  <configlet action_id="publication"
+             appId="OBS.Publication"
+             remove="True"
+             title="Publication Settings"
+  >
+  </configlet>
+
+</object>

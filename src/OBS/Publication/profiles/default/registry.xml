@@ -1,0 +1,9 @@
+<registry>
+    <records interface="OBS.Publication.interfaces.IOBSPublicationSettings" 
+             prefix="OBS.Publication.interfaces.IOBSPublicationSettings">
+        <!-- Set default values -->
+
+        <!-- Leave to empty string -->
+        <value key="ADStoken">Your ADS token here</value>
+    </records>
+</registry>

@@ -33,12 +33,12 @@ class TestSetup(unittest.TestCase):
             'OBS.Publication'))
 
     def test_browserlayer(self):
-        """Test that IObsPublicationLayer is registered."""
+        """Test that IOBSPublicationLayer is registered."""
         from OBS.Publication.interfaces import (
-            IObsPublicationLayer)
+            IOBSPublicationLayer)
         from plone.browserlayer import utils
         self.assertIn(
-            IObsPublicationLayer,
+            IOBSPublicationLayer,
             utils.registered_layers())
 
 
@@ -63,8 +63,8 @@ class TestUninstall(unittest.TestCase):
             'OBS.Publication'))
 
     def test_browserlayer_removed(self):
-        """Test that IObsPublicationLayer is removed."""
+        """Test that IOBSPublicationLayer is removed."""
         from OBS.Publication.interfaces import \
-            IObsPublicationLayer
+            IOBSPublicationLayer
         from plone.browserlayer import utils
-        self.assertNotIn(IObsPublicationLayer, utils.registered_layers())
+        self.assertNotIn(IOBSPublicationLayer, utils.registered_layers())
